@@ -1,9 +1,11 @@
-# This workflow 
-
+---
 name: Bicep-Template_Build
 on:
   workflow_dispatch:
   push:
+    branches:
+    - main
+  pull_request:
     branches:
     - main
 
@@ -14,7 +16,7 @@ env:
 
 #################################################
 #                                               #        
-#################    BUILD   #####################
+#################    BUILD   ####################
 #                                               #
 #################################################
 
@@ -28,24 +30,17 @@ jobs:
         with:
             bicepFilePath: ${{  env.bicepfilePath }}
             outputFilePath: ./main.json
+
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.1
         with:
           path: ./main.json
 
-#################################################
-#                                               #        
-#################    TEST   #####################
-#                                               #
-#################################################
-
-  test: 
-    name: Azure PowerShell Action
-    needs: [build]
-    uses: Azure/powershell@v1
-    with:
-      inlineScript: ./ARM_What-If.ps1 -TestResourceGroupName  ${{ env.resourceGroupName }}
-      azPSVersion: latest
+      - name: Azure PowerShell Action
+        uses: Azure/powershell@v1
+        with:
+          inlineScript: ./ARM_What-If.ps1 -TestResourceGroupName  ${{ env.resourceGroupName }}
+          azPSVersion: latest
 
 
 #################################################

@@ -19,7 +19,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    needs: [megalinter]
     steps:
       - uses: actions/checkout@v3
       - name: bicep-build-output

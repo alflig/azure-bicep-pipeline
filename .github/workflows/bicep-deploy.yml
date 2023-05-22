@@ -13,9 +13,7 @@ on:
 env:
   resourceGroupName: bicep
   resourceGroupLocation: norwayeast
-  bicepfilePath: ./bicepfiles*.bicep
-
-
+  bicepfilePath: ./bicepfiles/*.bicep
 
 # Builds the bicep template
 jobs:

@@ -42,14 +42,14 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: azure/login@v1
-      name: login to azure
+      name: Sign in to Azure
       with:
-        creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
-        enable-AzPSSession: true 
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+        enable-AzPSSession: true
     - name: Run Azure PowerShell script
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          New-AzSubscriptionDeployment -whatif -location norwayeast -templateFile ${GITHUB_WORKSPACE}/bicepfiles/main.bicep
+          New-AzSubscriptionDeployment -whatif -location norwayeast -templateFile $GITHUB_WORKSPACE/bicepfiles/main.bicep
         azPSVersion: "latest"
       

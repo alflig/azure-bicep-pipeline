@@ -1,0 +1,54 @@
+---
+name: LintAndValidate
+on: push
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AZURE_RESOURCEGROUP_NAME: Biceptesting
+  ENVIRONMENT_TYPE: Test
+
+# Builds the bicep template
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run Bicep linter
+      run: az bicep build --file deploy/main.bicep
+
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: azure/login@v1
+      name: Sign in to Azure
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+        enable-AzPSSession: true
+    - uses: azure/arm-deploy@v1
+      name: Run preflight validation
+      with:
+        deploymentName: ${{ github.run_number }}
+        resourceGroupName: ${{ env.AZURE_RESOURCEGROUP_NAME }}
+        template: ./bicepfiles/main.bicep
+        parameters: environmentType=${{ env.ENVIRONMENT_TYPE }}
+        deploymentMode: Validate
+
+    Whatif:
+      runs-on: ubuntu-latest
+      steps:
+      - name: Login via Az module
+        uses: azure/login@v1
+        with:
+          creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
+          enable-AzPSSession: true 
+      - name: Run Azure PowerShell script
+        uses: azure/powershell@v1
+        with:
+          inlineScript: |
+            New-AzSubscriptionDeployment -whatif -location norwayeast -templateFile .bicepfiles/main.bicep
+          azPSVersion: "latest"
+      

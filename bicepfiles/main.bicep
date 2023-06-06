@@ -3,9 +3,8 @@ targetScope = 'subscription'
 param resourceGroupName string
 param resourceGroupLocation string = 'norwayeast'
 
-resource rg 'Microsoft.Resources/resourceGroups@2021-04-01'  = {
+resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' existing = {
   name: resourceGroupName
-  location: resourceGroupLocation
 }
 
 module genvnet 'br/public:network/virtual-network:1.1.2' = {

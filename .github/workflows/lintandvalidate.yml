@@ -37,18 +37,18 @@ jobs:
         parameters: environmentType=${{ env.ENVIRONMENT_TYPE }}
         deploymentMode: Validate
 
-    Whatif:
-      runs-on: ubuntu-latest
-      steps:
-      - name: Login via Az module
-        uses: azure/login@v1
-        with:
-          creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
-          enable-AzPSSession: true 
-      - name: Run Azure PowerShell script
-        uses: azure/powershell@v1
-        with:
-          inlineScript: |
-            New-AzSubscriptionDeployment -whatif -location norwayeast -templateFile .bicepfiles/main.bicep
+  Whatif:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Login via Az module
+      uses: azure/login@v1
+      with:
+        creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
+        enable-AzPSSession: true 
+    - name: Run Azure PowerShell script
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          New-AzSubscriptionDeployment -whatif -location norwayeast -templateFile .bicepfiles/main.bicep
           azPSVersion: "latest"
       

@@ -1,41 +1,40 @@
-@description('Storage Account type')
-@allowed([
-  'Premium_LRS'
-  'Premium_ZRS'
-  'Standard_GRS'
-  'Standard_GZRS'
-  'Standard_LRS'
-  'Standard_RAGRS'
-  'Standard_RAGZRS'
-  'Standard_ZRS'
-])
-param storageAccountType string = 'Standard_LRS'
+targetScope = 'subscription'
 
-@description('Location for all resources.')
-param location string = resourceGroup().location
+param resourceGroupName string
+param resourceGroupLocation string = 'norwayeast'
 
-@description('The name of the Storage Account')
-param storageAccountName string = 'store${uniqueString(resourceGroup().id)}'
-
-@description('The name of the Owner of this resource for the Azure Tag declaration')
-param ownerTag string = 'Sarah'
-
-@description('The purpose of this resource for the Azure Tag declaration')
-param purposeTag string = 'Demo'
-
-resource storage 'Microsoft.Storage/storageAccounts@2022-05-01' = {
-  name: storageAccountName
-  location: location
-  tags: {
-    Owner: ownerTag
-    Purpose: purposeTag
-  }
-  sku: {
-    name: storageAccountType
-  }
-  kind: 'StorageV2'
-  properties: {}
+resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
+  name: resourceGroupName
+  location: resourceGroupLocation
 }
 
-output storageAccountName string = storageAccountName
-output storageAccountId string = storage.id
+module genvnet 'br/public:network/virtual-network:1.1.2' = {
+  scope: rg
+  name: 'Justasimplenetwork'
+  params: {
+    newOrExistingNSG: 'new'
+    name: 'gen-0-virtual-network'
+    location: resourceGroupLocation
+    addressPrefixes: [
+      '10.0.0.0/16'
+    ]
+    subnets: [
+      {
+        name: 'testsubnet'
+        addressPrefix: '10.0.255.0/24'
+      }
+      {
+        name: 'Subnet-for-testings'
+        addressPrefix: '10.0.3.0/24'
+        delegations: [
+          {
+            name: 'netappDel'
+            properties: {
+              serviceName: 'Microsoft.Netapp/volumes'
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

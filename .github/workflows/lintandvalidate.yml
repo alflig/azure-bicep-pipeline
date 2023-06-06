@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Run Bicep linter
-      run: az bicep build --file deploy/main.bicep
+      run: az bicep build --file ./bicepfiles/main.bicep
 
   validate:
     runs-on: ubuntu-latest
@@ -50,5 +50,5 @@ jobs:
       with:
         inlineScript: |
           New-AzSubscriptionDeployment -whatif -location norwayeast -templateFile .bicepfiles/main.bicep
-          azPSVersion: "latest"
+        azPSVersion: "latest"
       

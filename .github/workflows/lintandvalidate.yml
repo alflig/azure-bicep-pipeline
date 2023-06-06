@@ -49,9 +49,6 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          echo "${GITHUB_WORKSPACE}"
-          echo "${ GITHUB_WORKSPACE }"
-          echo "${{ GITHUB_WORKSPACE }}"
-          New-AzSubscriptionDeployment -whatif -location norwayeast -templateFile ${{ GITHUB_WORKSPACE }}./bicepfiles/main.bicep
+          New-AzSubscriptionDeployment -whatif -location norwayeast -templateFile ${{ GITHUB_WORKSPACE }}/bicepfiles/main.bicep
         azPSVersion: "latest"
       

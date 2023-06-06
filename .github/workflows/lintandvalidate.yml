@@ -53,6 +53,6 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          New-AzSubscriptionDeployment -whatif -location norwayeast -templateFile ./bicepfiles/main.bicep"
+          "New-AzSubscriptionDeployment -whatif -location norwayeast -templateFile ./bicepfiles/main.bicep"
         azPSVersion: "latest"
       

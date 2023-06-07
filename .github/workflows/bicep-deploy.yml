@@ -18,10 +18,7 @@ env:
 #################    DEPLOY   ###################
 #                                               #
 #################################################
-
-  deploy: 
-   environment: prod
-   runs-on: ubuntu-latest
+ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:

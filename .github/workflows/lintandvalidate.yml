@@ -34,6 +34,7 @@ jobs:
         deploymentName: ${{ github.run_number }}
         resourceGroupName: ${{ env.AZURE_RESOURCEGROUP_NAME }}
         template: ./bicepfiles/main.bicep
+        parameters: resourceGroupName=${{ env.AZURE_RESOURCEGROUP_NAME }}
         deploymentMode: Validate
 
   Whatif:

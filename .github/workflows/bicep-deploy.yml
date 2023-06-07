@@ -10,6 +10,7 @@ env:
   resourceGroupName: Biceptesting
   resourceGroupLocation: norwayeast
   bicepfilePath: ./bicepfiles/main.bicep
+  ENVIRONMENT_TYPE: Test
 
 
 #################################################

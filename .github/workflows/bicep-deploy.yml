@@ -1,24 +1,16 @@
 ---
-name: Bicep-Template_Build
-on:
-  workflow_dispatch:
-  push:
-    branches:
-    - main
-
+name: Buildanddeploy
+on: push
+  
+permissions:
+  id-token: write
+  contents: read
+  
 env:
-  resourceGroupName: Biceptesting
-  resourceGroupLocation: norwayeast
-  bicepfilePath: ./bicepfiles/main.bicep
+  AZURE_RESOURCEGROUP_NAME: Biceptesting
   ENVIRONMENT_TYPE: Test
-
-
-#################################################
-#                                               #        
-#################    DEPLOY   ###################
-#                                               #
-#################################################
- jobs:
+  
+jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:

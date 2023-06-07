@@ -1,5 +1,4 @@
-# This workflow 
-
+---
 name: Bicep-Template_Build
 on:
   workflow_dispatch:
@@ -13,9 +12,14 @@ on:
 env:
   resourceGroupName: bicep
   resourceGroupLocation: norwayeast
-  bicepfilePath: ./bicepfiles/*.bicep
+  bicepfilePath: ./bicepfiles/main.bicep
 
-# Builds the bicep template
+#################################################
+#                                               #        
+#################    BUILD   ####################
+#                                               #
+#################################################
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,13 +30,27 @@ jobs:
         with:
             bicepFilePath: ${{  env.bicepfilePath }}
             outputFilePath: ./main.json
+
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.1
         with:
           path: ./main.json
 
-  # Deploys the template to Azure
+      - name: Azure PowerShell Action
+        uses: Azure/powershell@v1
+        with:
+          inlineScript: .\ArmWhatIfTest.ps1 -SubscriptionID "8" -TestResourceGroupName "testresourcegroup"
+          azPSVersion: latest
+
+
+#################################################
+#                                               #        
+#################    DEPLOY   ###################
+#                                               #
+#################################################
+
   deploy: 
+   environment: prod
    runs-on: ubuntu-latest
    needs: [build]
 

@@ -53,8 +53,8 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          adminUsername=${{ secrets.adminUsername }} 
-          adminPassword=${{ secrets.adminPassword }}'
+          adminUsername='${{ secrets.adminUsername }}'
+          adminPassword='${{ secrets.adminPassword }}'
           New-AzResourceGroupDeployment -whatIf -location norwayeast -ResourceGroupName ${{ env.AZURE_RESOURCEGROUP_NAME }}  -TemplateFile ./bicepfiles/main.bicep -DeploymentDebugLogLevel All 
         azPSVersion: "latest"
       

@@ -30,4 +30,4 @@ jobs:
         deploymentName: ${{ github.run_number }}
         resourceGroupName: ${{ env.AZURE_RESOURCEGROUP_NAME }}
         template: ./bicepfiles/main.bicep
-        parameters: resourceGroupName=${{ env.AZURE_RESOURCEGROUP_NAME }}
+        parameters: 'resourceGroupName=${{ env.AZURE_RESOURCEGROUP_NAME }} adminUsername=${{ secrets.adminUsername }} adminPassword=${{ secrets.adminPassword }}' 

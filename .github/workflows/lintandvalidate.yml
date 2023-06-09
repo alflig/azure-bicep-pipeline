@@ -54,7 +54,7 @@ jobs:
       with:
         inlineScript: |
           $adminUsername = ConvertTo-SecureString "${{ secrets.adminUsername }}" -AsPlainText -Force
-          $adminPassword = ConvertTo-SecureString "${{ secrets.adminPassword }}" -AsPlainText -Force 
+          $adminPassword = ConvertTo-SecureString "${{ secrets.adminPassword }}" -AsPlainText -Force
           New-AzResourceGroupDeployment -ResourceGroupName ${{ env.AZURE_RESOURCEGROUP_NAME }} `
             -whatIf `
             -location norwayeast `
@@ -64,13 +64,3 @@ jobs:
             -adminPassword $adminPassword `
             -DeploymentDebugLogLevel All 
         azPSVersion: "latest"
-      
-
-#New-AzResourceGroupDeployment -ResourceGroupName Biceptesting `
-# -whatIf `
-#  -location norwayeast `
-#  -TemplateFile ./bicepfiles/main.bicep `
-#  -TemplateParameterFile ./bicepfiles/parameters.json `
-#  -adminUsername $adminPassword `
-#  -adminPassword $adminUsername `
-#  -DeploymentDebugLogLevel All 

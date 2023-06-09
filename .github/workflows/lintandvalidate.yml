@@ -54,13 +54,22 @@ jobs:
       with:
         inlineScript: |
           New-AzResourceGroupDeployment
-           -whatIf 
-           -location norwayeast 
-           -ResourceGroupName ${{ env.AZURE_RESOURCEGROUP_NAME }}  
-           -TemplateFile ./bicepfiles/main.bicep 
-           -TemplateParameterFile ./bicepfiles/parameters.json 
-           -adminUsername ${{ secrets.adminUsername }}
-           -adminPassword ${{ secrets.adminPassword }}
-           -DeploymentDebugLogLevel All 
+            -whatIf 
+            -location norwayeast 
+            -ResourceGroupName ${{ env.AZURE_RESOURCEGROUP_NAME }}  
+            -TemplateFile ./bicepfiles/main.bicep 
+            -TemplateParameterFile ./bicepfiles/parameters.json 
+            -adminUsername ${{ secrets.adminUsername }}
+            -adminPassword ${{ secrets.adminPassword }}
+            -DeploymentDebugLogLevel All 
         azPSVersion: "latest"
       
+
+#New-AzResourceGroupDeployment -ResourceGroupName Biceptesting `
+# -whatIf `
+#  -location norwayeast `
+#  -TemplateFile ./bicepfiles/main.bicep `
+#  -TemplateParameterFile ./bicepfiles/parameters.json `
+#  -adminUsername $adminPassword `
+#  -adminPassword $adminUsername `
+#  -DeploymentDebugLogLevel All 

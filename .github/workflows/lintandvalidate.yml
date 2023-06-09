@@ -58,8 +58,8 @@ jobs:
             -location norwayeast `
             -TemplateFile ./bicepfiles/main.bicep `
             -TemplateParameterFile ./bicepfiles/parameters.json `
-            -adminUsername "${{ secrets.adminUsername }}" `
-            -adminPassword "${{ secrets.adminPassword }}" `
+            -adminUsername ${{ secrets.adminUsername }} `
+            -adminPassword ${{ secrets.adminPassword }} `
             -DeploymentDebugLogLevel All 
         azPSVersion: "latest"
       
@@ -72,3 +72,5 @@ jobs:
 #  -adminUsername $adminPassword `
 #  -adminPassword $adminUsername `
 #  -DeploymentDebugLogLevel All 
+# $adminUsername = ConvertTo-SecureString "test123123awd" -AsPlainText -Force
+# $adminPassword = ConvertTo-SecureString "testawdawd212123" -AsPlainText -Force 

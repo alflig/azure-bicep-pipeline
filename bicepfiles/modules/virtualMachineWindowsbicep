@@ -1,0 +1,156 @@
+param virtualmachinname string
+param location string
+param vmsize string = 'Standard_B1ms'
+param NetworkInterfacename string 
+param ipforwarding bool
+param applicationsecuritygroupid string
+param loadBalancerBackendPoolId string
+param subnetId string
+param NetworkSecurityGroupId string
+param NetworkInterFaceId string
+@secure()
+param adminpassword string
+@secure()
+param adminusername string
+param computername string
+param base64encodedstring string = ''
+param diskstorageaccounttype string = 'Standard_LRS'
+param diskname string
+param osdiskname string
+resource symbolicname 'Microsoft.Compute/virtualMachines@2022-11-01' = {
+  name: virtualmachinname
+  location: location
+  plan: {
+    name: 'win10-21h2-pro'
+    product: 'windows-10'
+    promotionCode: ''
+    publisher: 'microsoftwindowsdesktop'
+  }
+  properties: {
+    platformFaultDomain: 1
+    priority: 'low'
+    additionalCapabilities: {
+      ultraSSDEnabled: false
+    }
+    diagnosticsProfile: {
+      bootDiagnostics: {
+
+        enabled: true
+      }
+    }
+    hardwareProfile: {
+      vmSize: vmsize
+    }
+    networkProfile: {
+      networkInterfaceConfigurations: [
+        {
+          name: NetworkInterfacename
+          properties: {
+            deleteOption: 'Delete'
+            dnsSettings: {
+              dnsServers: [
+                '8.8.8.8'
+              ]
+            }
+            enableAcceleratedNetworking: true
+            enableIPForwarding: ipforwarding
+            ipConfigurations: [
+              {
+                name: 'string'
+                properties: {
+                  applicationSecurityGroups: [
+                    {
+                      id: applicationsecuritygroupid
+                    }
+                  ]
+                  loadBalancerBackendAddressPools: [
+                    {
+                      id: loadBalancerBackendPoolId
+                    }
+                  ]
+                  primary: true
+                  subnet: {
+                    id: subnetId
+                  }
+                }
+              }
+            ]
+            networkSecurityGroup: {
+              id: NetworkSecurityGroupId
+            }
+            primary: true
+          }
+        }
+      ]
+      networkInterfaces: [
+        {
+          id: NetworkInterFaceId
+          properties: {
+            deleteOption: 'Delete'
+            primary: true
+          }
+        }
+      ]
+    }
+    osProfile: {
+      adminPassword: adminpassword
+      adminUsername: adminusername
+      allowExtensionOperations: true
+      computerName: computername
+      customData: base64encodedstring
+
+      windowsConfiguration: {
+        enableAutomaticUpdates: true
+        enableVMAgentPlatformUpdates: true
+        patchSettings: {
+          assessmentMode: 'AutomaticByPlatform'
+          automaticByPlatformSettings: {
+            rebootSetting: 'IfRequired'
+          }
+          enableHotpatching: true
+          patchMode: 'AutomaticByPlatform'
+        }
+        provisionVMAgent: true
+        timeZone: 'Central European Time'
+      }
+    }
+    storageProfile: {
+      dataDisks: [
+        {
+          lun: 1
+          caching: 'None'
+          createOption: 'FromImage'
+          deleteOption: 'Delete'
+          detachOption: 'ForceDetach'
+          diskSizeGB: 60
+          managedDisk: {
+            id: 'string'
+            storageAccountType: diskstorageaccounttype
+          }
+          name: diskname
+          toBeDetached: false
+          writeAcceleratorEnabled: false
+        }
+      ]
+      imageReference: {
+        offer: 'windows-10'
+        publisher: 'microsoftwindowsdesktop'
+        sharedGalleryImageId: 'string'
+        sku: 'win10-21h2-pro'
+        version: 'latest'
+      }
+      osDisk: {
+        name: osdiskname
+        caching: 'None'
+        createOption: 'FromImage'
+        deleteOption: 'Delete'
+        diskSizeGB: 127
+        managedDisk: {
+          id: 'string'
+          storageAccountType: diskstorageaccounttype
+        }
+        writeAcceleratorEnabled: false
+      }
+    }
+  } 
+}

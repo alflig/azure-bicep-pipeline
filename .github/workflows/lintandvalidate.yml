@@ -3,6 +3,7 @@ name: LintAndValidate
 on: 
   push:
     branches:
+      - '**'
       - '!main'
 
 

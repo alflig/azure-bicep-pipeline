@@ -62,7 +62,7 @@ param vmSize string = 'Standard_B2s'
 param location string = resourceGroup().location
 
 @description('Name of the virtual machine.')
-param vmName string = 'windowsvirtualmachine'
+param vmName string = 'virtualmachineforpowershell'
 
 @description('Security Type of the Virtual Machine.')
 @allowed([

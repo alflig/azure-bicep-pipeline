@@ -24,7 +24,7 @@ jobs:
         creds: ${{secrets.AZURE_CREDENTIALS}}
         enable-AzPSSession: true
     - uses: azure/arm-deploy@v1
-      name: Deploy website
+      name: Deploy Bicep Templates
       with:
         failOnStdErr: false
         deploymentName: ${{ github.run_number }}

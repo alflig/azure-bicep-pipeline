@@ -51,9 +51,13 @@ param publicIpSku string = 'Standard'
   '2022-datacenter-core-smalldisk-g2'
   '2022-datacenter-g2'
   '2022-datacenter-smalldisk-g2'
-  'win10-21h2-pro'
+  'win10-21h2-avd'
 ])
-param OSVersion string = 'win10-21h2-pro'
+param SKU string = 'win10-21h2-avd'
+
+param publisher string = 'MicrosoftWindowsDesktop'
+
+param offer string = 'Windows-10'
 
 @description('Size of the virtual machine.')
 param vmSize string = 'Standard_B2s'
@@ -61,8 +65,10 @@ param vmSize string = 'Standard_B2s'
 @description('Location for all resources.')
 param location string = resourceGroup().location
 
+param disksize int = 256
+
 @description('Name of the virtual machine.')
-param vmName string = 'virtualmachineforpowershell'
+param vmName string = 'virtualmachine'
 
 @description('Security Type of the Virtual Machine.')
 @allowed([
@@ -199,9 +205,9 @@ resource vm 'Microsoft.Compute/virtualMachines@2022-03-01' = {
     }
     storageProfile: {
       imageReference: {
-        publisher: 'MicrosoftWindowsServer'
-        offer: 'WindowsServer'
-        sku: OSVersion
+        publisher: publisher
+        offer: offer
+        sku: SKU
         version: 'latest'
       }
       osDisk: {
@@ -212,7 +218,7 @@ resource vm 'Microsoft.Compute/virtualMachines@2022-03-01' = {
       }
       dataDisks: [
         {
-          diskSizeGB: 1023
+          diskSizeGB: disksize
           lun: 0
           createOption: 'Empty'
         }

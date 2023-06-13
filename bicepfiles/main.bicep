@@ -75,7 +75,7 @@ param vmName string = 'virtualmachine'
   'Standard'
   'TrustedLaunch'
 ])
-param securityType string = 'TrustedLaunch'
+param securityType string = 'Standard'
 
 var storageAccountName = 'bootdiags${uniqueString(resourceGroup().id)}'
 var nicName = 'myVMNic'
